@@ -138,11 +138,12 @@ const Index = () => {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <Tabs defaultValue="rides" className="w-full">
-          <TabsList className="grid w-full grid-cols-5 mb-8">
+          <TabsList className="grid w-full grid-cols-6 mb-8">
             <TabsTrigger value="rides">Поиск поездок</TabsTrigger>
             <TabsTrigger value="drivers">Попутчики</TabsTrigger>
             <TabsTrigger value="create">Создать поездку</TabsTrigger>
             <TabsTrigger value="profile">Мой профиль</TabsTrigger>
+            <TabsTrigger value="admin">Админ-панель</TabsTrigger>
             <TabsTrigger value="safety">Безопасность</TabsTrigger>
           </TabsList>
 
@@ -371,6 +372,307 @@ const Index = () => {
                 </div>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          {/* Admin Panel */}
+          <TabsContent value="admin" className="space-y-6">
+            <div className="max-w-7xl mx-auto">
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center space-x-3">
+                  <Icon name="Settings" className="h-8 w-8 text-primary" />
+                  <h2 className="text-3xl font-bold text-gray-900">Админ-панель</h2>
+                </div>
+                <Badge variant="outline" className="px-3 py-1">
+                  <Icon name="Shield" className="h-4 w-4 mr-2" />
+                  Администратор
+                </Badge>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Route Management */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center space-x-2">
+                      <Icon name="Route" className="h-5 w-5 text-primary" />
+                      <span>Управление маршрутами</span>
+                    </CardTitle>
+                    <CardDescription>
+                      Добавляйте и редактируйте популярные маршруты
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Откуда</label>
+                          <Input placeholder="Оренбург" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Куда</label>
+                          <Input placeholder="Москва" />
+                        </div>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Расстояние (км)</label>
+                          <Input placeholder="1200" type="number" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Время в пути</label>
+                          <Input placeholder="14ч 30м" />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-3 gap-3">
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Базовая цена</label>
+                          <Input placeholder="2500" type="number" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Комиссия (%)</label>
+                          <Input placeholder="10" type="number" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Статус</label>
+                          <Select defaultValue="active">
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="active">Активный</SelectItem>
+                              <SelectItem value="inactive">Неактивный</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+
+                      <Button className="w-full">
+                        <Icon name="Plus" className="mr-2 h-4 w-4" />
+                        Добавить маршрут
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Price Management */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center space-x-2">
+                      <Icon name="DollarSign" className="h-5 w-5 text-primary" />
+                      <span>Управление ценами</span>
+                    </CardTitle>
+                    <CardDescription>
+                      Настройка тарифов и коэффициентов
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium mb-2">Выберите маршрут</label>
+                        <Select defaultValue="orenburg-moscow">
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="orenburg-moscow">Оренбург → Москва</SelectItem>
+                            <SelectItem value="orenburg-samara">Оренбург → Самара</SelectItem>
+                            <SelectItem value="buzuluk-orenburg">Бузулук → Оренбург</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div className="bg-blue-50 p-4 rounded-lg space-y-3">
+                        <h4 className="font-medium text-primary">Текущие тарифы</h4>
+                        <div className="grid grid-cols-2 gap-4 text-sm">
+                          <div>
+                            <span className="text-gray-600">Базовая цена:</span>
+                            <div className="font-semibold">2500₽</div>
+                          </div>
+                          <div>
+                            <span className="text-gray-600">Комиссия сервиса:</span>
+                            <div className="font-semibold">250₽ (10%)</div>
+                          </div>
+                          <div>
+                            <span className="text-gray-600">Итого для пассажира:</span>
+                            <div className="font-semibold text-primary">2750₽</div>
+                          </div>
+                          <div>
+                            <span className="text-gray-600">Получит водитель:</span>
+                            <div className="font-semibold text-green-600">2500₽</div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Новая цена</label>
+                          <Input placeholder="2500" type="number" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Коэффициент спроса</label>
+                          <Select defaultValue="1.0">
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="0.8">0.8 (низкий спрос)</SelectItem>
+                              <SelectItem value="1.0">1.0 (обычный)</SelectItem>
+                              <SelectItem value="1.2">1.2 (высокий спрос)</SelectItem>
+                              <SelectItem value="1.5">1.5 (пиковый спрос)</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+
+                      <Button className="w-full" variant="outline">
+                        <Icon name="RefreshCw" className="mr-2 h-4 w-4" />
+                        Обновить цены
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Routes Table */}
+              <Card className="mt-8">
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <Icon name="Table" className="h-5 w-5 text-primary" />
+                    <span>Список маршрутов</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse">
+                      <thead>
+                        <tr className="border-b">
+                          <th className="text-left py-3 px-2">Маршрут</th>
+                          <th className="text-left py-3 px-2">Расстояние</th>
+                          <th className="text-left py-3 px-2">Базовая цена</th>
+                          <th className="text-left py-3 px-2">Комиссия</th>
+                          <th className="text-left py-3 px-2">Поездки</th>
+                          <th className="text-left py-3 px-2">Статус</th>
+                          <th className="text-left py-3 px-2">Действия</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-b hover:bg-gray-50">
+                          <td className="py-3 px-2">
+                            <div className="font-medium">Оренбург → Москва</div>
+                            <div className="text-sm text-gray-500">Популярный маршрут</div>
+                          </td>
+                          <td className="py-3 px-2">1200 км</td>
+                          <td className="py-3 px-2">2500₽</td>
+                          <td className="py-3 px-2">10%</td>
+                          <td className="py-3 px-2">
+                            <span className="text-green-600 font-medium">47</span>
+                            <span className="text-gray-500 text-sm ml-1">в этом месяце</span>
+                          </td>
+                          <td className="py-3 px-2">
+                            <Badge className="bg-green-100 text-green-800">Активный</Badge>
+                          </td>
+                          <td className="py-3 px-2">
+                            <div className="flex space-x-2">
+                              <Button size="sm" variant="outline">
+                                <Icon name="Edit" className="h-4 w-4" />
+                              </Button>
+                              <Button size="sm" variant="outline" className="text-red-600">
+                                <Icon name="Trash" className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr className="border-b hover:bg-gray-50">
+                          <td className="py-3 px-2">
+                            <div className="font-medium">Оренбург → Самара</div>
+                            <div className="text-sm text-gray-500">Региональный</div>
+                          </td>
+                          <td className="py-3 px-2">280 км</td>
+                          <td className="py-3 px-2">800₽</td>
+                          <td className="py-3 px-2">8%</td>
+                          <td className="py-3 px-2">
+                            <span className="text-green-600 font-medium">23</span>
+                            <span className="text-gray-500 text-sm ml-1">в этом месяце</span>
+                          </td>
+                          <td className="py-3 px-2">
+                            <Badge className="bg-green-100 text-green-800">Активный</Badge>
+                          </td>
+                          <td className="py-3 px-2">
+                            <div className="flex space-x-2">
+                              <Button size="sm" variant="outline">
+                                <Icon name="Edit" className="h-4 w-4" />
+                              </Button>
+                              <Button size="sm" variant="outline" className="text-red-600">
+                                <Icon name="Trash" className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr className="border-b hover:bg-gray-50">
+                          <td className="py-3 px-2">
+                            <div className="font-medium">Бузулук → Оренбург</div>
+                            <div className="text-sm text-gray-500">Местный</div>
+                          </td>
+                          <td className="py-3 px-2">95 км</td>
+                          <td className="py-3 px-2">300₽</td>
+                          <td className="py-3 px-2">5%</td>
+                          <td className="py-3 px-2">
+                            <span className="text-yellow-600 font-medium">8</span>
+                            <span className="text-gray-500 text-sm ml-1">в этом месяце</span>
+                          </td>
+                          <td className="py-3 px-2">
+                            <Badge className="bg-yellow-100 text-yellow-800">Низкий спрос</Badge>
+                          </td>
+                          <td className="py-3 px-2">
+                            <div className="flex space-x-2">
+                              <Button size="sm" variant="outline">
+                                <Icon name="Edit" className="h-4 w-4" />
+                              </Button>
+                              <Button size="sm" variant="outline" className="text-red-600">
+                                <Icon name="Trash" className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Analytics Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
+                <Card>
+                  <CardContent className="p-6 text-center">
+                    <Icon name="Route" className="h-8 w-8 text-primary mx-auto mb-2" />
+                    <div className="text-2xl font-bold text-primary">127</div>
+                    <div className="text-sm text-gray-600">Активных маршрутов</div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-6 text-center">
+                    <Icon name="Car" className="h-8 w-8 text-green-600 mx-auto mb-2" />
+                    <div className="text-2xl font-bold text-green-600">1,438</div>
+                    <div className="text-sm text-gray-600">Поездок в месяц</div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-6 text-center">
+                    <Icon name="DollarSign" className="h-8 w-8 text-yellow-600 mx-auto mb-2" />
+                    <div className="text-2xl font-bold text-yellow-600">₽486k</div>
+                    <div className="text-sm text-gray-600">Оборот в месяц</div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-6 text-center">
+                    <Icon name="TrendingUp" className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+                    <div className="text-2xl font-bold text-blue-600">+23%</div>
+                    <div className="text-sm text-gray-600">Рост к прошлому месяцу</div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
           </TabsContent>
 
           {/* Safety */}
